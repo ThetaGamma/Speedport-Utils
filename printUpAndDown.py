@@ -11,14 +11,14 @@ fname = "geckodriver"
 if sys.platform is "win32":
     fname = "geckodriver.exe"
 
-filePath = os.path.join(os.path.dirname(os.path.realpath(__file__)),fname)
+filePath = os.path.join(os.path.dirname(os.path.realpath(__file__)), fname)
 print("File path: ", filePath)
 
 options = Options()
 options.headless = True
 driver = webdriver.Firefox(firefox_options=options, executable_path=filePath)
 driver.get(url)
-print ("Headless Firefox Initialized")
+print("Headless Firefox Initialized")
 
 # go to the status page
 statusMenu = driver.find_element_by_id("navStatus")

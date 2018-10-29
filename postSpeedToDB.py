@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from beautifulsoup4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 import os
@@ -11,7 +11,7 @@ url = "http://speedport.ip/"
 
 fname = "geckodriver.exe" if sys.platform == "win32" else "geckodriver"
 
-filePath = os.path.join(os.path.dirname(os.path.realpath(__file__)),fname)
+filePath = os.path.join(os.path.dirname(os.path.realpath(__file__)), fname)
 
 configFile = open("config.json", "r")
 config = json.load(configFile)
@@ -25,6 +25,7 @@ database = config.get('database')
 client = InfluxDB('http://' + host + ':' + str(port))
 
 waitTime = config.get('interval')
+
 
 def postUpDown():
     options = Options()
@@ -49,9 +50,14 @@ def postUpDown():
     while not upSpeedElement.is_displayed():
         pass
 
-    client.write(database, 'DSLDownRate', fields={'value': int(downSpeedElement.text)})
-    client.write(database, 'DSLUpRate', fields={'value': int(upSpeedElement.text)})
+    # client.write(database, 'DSLDownRate', fields={
+    #             'value': int(downSpeedElement.text)})
+    # client.write(database, 'DSLUpRate', fields={
+    #             'value': int(upSpeedElement.text)})
+    print(downSpeedElement.text)
+    print(upSpeedElement.text)
     driver.quit()
+
 
 def main():
     print("Process started!")
@@ -63,9 +69,8 @@ def main():
     print("Interval: {} seconds".format(waitTime))
     if not os.path.isfile(filePath):
         return -1
-    while (True):
-        postUpDown()
-        time.sleep(waitTime)
+    postUpDown()
+
 
 if __name__ == '__main__':
     main()
